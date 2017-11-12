@@ -1,4 +1,7 @@
 language: java
-
 jdk:
-  - openjdk8
+- openjdk8
+notifications:
+  slack:
+    rooms:
+      secure: gqQTtSYuvK59c0rqgEn/33y4HKKZrctjuxFl3IkKJHpHK/SyPYgr8GuO/6Qayqt4iPcjPzvvHWwsWYedLYSXbX4w8aBWeE1vikys/b2DuqigL9hAOHio3bDw2y9yJKEcgjeot6TeiRbzRWBLIs46tQLLLYC1eX+v60WhRF9ND3AmzZimAZEllNNATveAs/NYd/ZWor0g+bHrREWn45TM+VqjR1pQ85p9wIELkf43ovP1XRBewpgDl5Pd3oB1/ZS28wKOkQ38lYHrU/LGusKQn0aqCgXNYTIPLs+2acBvVLEbklbnVpcMTncNVloUKc/Lvcvzr5pBGspLItgFAjpszv2XRnGVv8l9MYkFyP5yZ8CucPms52w4/RjcjS332wzUgJErTOpz3qO/wG1elzWiVElI4GzUI1Bghb6OOehjsenzUbiDFbSUIS/rOFhbzW64WfmT0JOis6/4dvxHuPHc/esGttbPLrJG8acAQ11L7xHTdJ7Lp0bLhs/grdlt+GACaaYTZLfWMlDoeXQbJKNkB1VQ77YNjUg2cu7TBLFPqoDHWPL4i7vgl/ouTGRf8PGajIewTVV8VMPbVuxC+CbnGQzn32H+kpj7idZ/2P/0GsHaSvYlRtldCBedkQZF1+cdlcFShMgFcqSQ/YJSJ/VsAxa2pJKhEV1aE0Q4ksX3F14=
