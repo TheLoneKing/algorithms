@@ -6,57 +6,41 @@ class InsertionSortTest {
 
     @Test
     fun sortThousandRandomNumbers() {
-        val count = 1000
-        val testArray = IntArray(count)
-        var i = 0
-        while (i < testArray.size) {
-            testArray[i] = (Math.random() * count).toInt()
-            i++
-        }
+        val testArray = generateTestArray(1000)
         val startTime: Long = System.currentTimeMillis()
-        InsertionSort.sort(testArray)
+        val sortedArray = InsertionSort.sort(testArray)
         println("The task with 1000 numbers took " + (System.currentTimeMillis() - startTime) + " ms")
     }
 
     @Test
     fun sortTenThousandRandomNumbers() {
-        val count = 10000
-        val testArray = IntArray(count)
-        var i = 0
-        while (i < testArray.size) {
-            testArray[i] = (Math.random() * count).toInt()
-            i++
-        }
+        val testArray = generateTestArray(10000)
         val startTime: Long = System.currentTimeMillis()
-        InsertionSort.sort(testArray)
+        val sortedArray = InsertionSort.sort(testArray)
         println("The task with 10,000 numbers took " + (System.currentTimeMillis() - startTime) + " ms")
     }
 
     @Test
     fun sortHundredThousandRandomNumbers() {
-        val count = 100000
-        val testArray = IntArray(count)
-        var i = 0
-        while (i < testArray.size) {
-            testArray[i] = (Math.random() * count).toInt()
-            i++
-        }
+        val testArray = generateTestArray(100000)
         val startTime: Long = System.currentTimeMillis()
-        InsertionSort.sort(testArray)
+        val sortedArray = InsertionSort.sort(testArray)
         println("The task with 100,000 numbers took " + (System.currentTimeMillis() - startTime) + " ms")
     }
 
     /*@Test
     fun sortOneMillionRandomNumbers() {
-        val count = 1000000
-        val testArray = IntArray(count)
-        var i = 0
-        while (i < testArray.size) {
-            testArray[i] = (Math.random() * count).toInt()
-            i++
-        }
+        val testArray = generateTestArray(1000000)
         val startTime: Long = System.currentTimeMillis()
         InsertionSort.sort(testArray)
         println("The task with 1,000,000 numbers took " + (System.currentTimeMillis() - startTime) + " ms")
     }*/
+
+    private fun generateTestArray(count: Int): IntArray {
+        val testArray = IntArray(count)
+        for (i in 0 until count) {
+            testArray[i] = (Math.random() * count).toInt()
+        }
+        return testArray
+    }
 }
