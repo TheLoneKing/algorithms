@@ -12,69 +12,57 @@ package org.theloneking.algorithms
 
 object HeapSort {
     fun sort(givenArray: IntArray): IntArray {
-        var heapSize = givenArray.size
-        buildMaxHeap(givenArray, heapSize)
-        while (heapSize > 1) {
-            heapSize = swapMaxElement(givenArray, heapSize)
-            maxHeapify(givenArray, 0, heapSize)
+        var lastHeapNodeIndex = givenArray.size - 1
+        buildMaxHeap(givenArray, lastHeapNodeIndex)
+        while (lastHeapNodeIndex > 0) {
+            swapHeapNodes(givenArray, 0, lastHeapNodeIndex)
+            lastHeapNodeIndex--
+            maxHeapify(givenArray, 0, lastHeapNodeIndex)
         }
         return givenArray
     }
 
-    private fun buildMaxHeap(givenArray: IntArray, heapSize: Int) {
-        for (position in heapSize / 2 downTo 1) {
-            val index = position - 1
-            val leftChildIndex = 2 * index + 1
-            val rightChildIndex = 2 * index + 2
+    private fun buildMaxHeap(givenArray: IntArray, lastHeapNodeIndex: Int) {
+        var rootIndex = parentIndex(lastHeapNodeIndex)
+        while (rootIndex >= 0) {
+            maxHeapify(givenArray, rootIndex, lastHeapNodeIndex)
+            rootIndex--
+        }
+    }
 
-            if (givenArray[index] < givenArray[leftChildIndex]) {
-                var temp = givenArray[index]
-                givenArray[index] = givenArray[leftChildIndex]
-                givenArray[leftChildIndex] = temp
+    private fun swapHeapNodes(givenArray: IntArray, indexOne: Int, indexTwo: Int) {
+        var temp = givenArray[indexOne]
+        givenArray[indexOne] = givenArray[indexTwo]
+        givenArray[indexTwo] = temp
+    }
+
+    private fun maxHeapify(givenArray: IntArray, index: Int, lastHeapNodeIndex: Int) {
+        var root = index
+        while (leftChildIndex(root) <= lastHeapNodeIndex) {
+            var leftChildIndex = leftChildIndex(root)
+            var swap = root
+            if (givenArray[swap] < givenArray[leftChildIndex]) {
+                swap = leftChildIndex
             }
 
-            if (rightChildIndex < heapSize && givenArray[index] < givenArray[rightChildIndex]) {
-                var temp = givenArray[index]
-                givenArray[index] = givenArray[rightChildIndex]
-                givenArray[rightChildIndex] = temp
+            if (leftChildIndex + 1 <= lastHeapNodeIndex && givenArray[swap] < givenArray[leftChildIndex + 1]) {
+                swap = leftChildIndex + 1
+            }
+
+            if (swap != root) {
+                swapHeapNodes(givenArray, root, swap)
+                root = swap
+            } else {
+                return
             }
         }
     }
 
-    private fun swapMaxElement(givenArray: IntArray, heapSize: Int): Int {
-        val lastIndex = heapSize - 1
-        var temp = givenArray[0]
-        givenArray[0] = givenArray[lastIndex]
-        givenArray[lastIndex] = temp
-        return lastIndex
+    private fun leftChildIndex(parentIndex: Int): Int {
+        return 2 * parentIndex + 1
     }
 
-    private fun maxHeapify(givenArray: IntArray, index: Int, heapSize: Int) {
-        var leftSwap = false
-        var rightSwap = false
-        val leftChildIndex = 2 * index + 1
-        val rightChildIndex = 2 * index + 2
-
-        if (leftChildIndex < heapSize && givenArray[index] < givenArray[leftChildIndex]) {
-            var temp = givenArray[index]
-            givenArray[index] = givenArray[leftChildIndex]
-            givenArray[leftChildIndex] = temp
-            leftSwap = true
-        }
-
-        if (rightChildIndex < heapSize && givenArray[index] < givenArray[rightChildIndex]) {
-            var temp = givenArray[index]
-            givenArray[index] = givenArray[rightChildIndex]
-            givenArray[rightChildIndex] = temp
-            rightSwap = true
-        }
-
-        if (leftSwap) {
-            maxHeapify(givenArray, leftChildIndex, heapSize)
-        }
-
-        if (rightSwap) {
-            maxHeapify(givenArray, rightChildIndex, heapSize)
-        }
+    private fun parentIndex(childIndex: Int): Int {
+        return (childIndex - 1 + (childIndex % 2)) / 2
     }
 }
