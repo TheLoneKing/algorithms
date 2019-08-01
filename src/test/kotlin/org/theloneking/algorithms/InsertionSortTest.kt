@@ -1,8 +1,8 @@
 package org.theloneking.algorithms
 
-import org.junit.Test
+import kotlin.test.Test
 
-class InsertionSortTest {
+class InsertionSortTest: BaseTest() {
 
     @Test
     fun sortThousandRandomNumbers() {
@@ -35,12 +35,4 @@ class InsertionSortTest {
         InsertionSort.sort(testArray)
         println("The task with 1,000,000 numbers took " + (System.currentTimeMillis() - startTime) + " ms")
     }*/
-
-    private fun generateTestArray(count: Int): IntArray {
-        val testArray = IntArray(count)
-        for (i in 0 until count) {
-            testArray[i] = (Math.random() * count).toInt()
-        }
-        return testArray
-    }
 }
