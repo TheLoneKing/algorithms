@@ -17,9 +17,8 @@ class BinarySearchTree {
         }
     }
 
-    // TODO
     fun rank(element: Int): Int {
-        return 0
+        return calculateRank(element, 0)
     }
 
     // TODO
@@ -34,9 +33,14 @@ class BinarySearchTree {
                 newNode.parentPointer = currentIndex
                 tree.add(newNode)
                 tree[currentIndex].rightPointer = tree.size - 1
+                tree[currentIndex].subTreeSize++
                 true
             } else {
-                findPositionAndInsert(element, tree[currentIndex].rightPointer ?: tree.size)
+                val inserted = findPositionAndInsert(element, tree[currentIndex].rightPointer ?: tree.size)
+                if (inserted) {
+                    tree[currentIndex].subTreeSize++
+                }
+                inserted
             }
         } else {
             return if (tree[currentIndex].leftPointer == null) {
@@ -44,9 +48,14 @@ class BinarySearchTree {
                 newNode.parentPointer = currentIndex
                 tree.add(newNode)
                 tree[currentIndex].leftPointer = tree.size - 1
+                tree[currentIndex].subTreeSize++
                 true
             } else {
-                findPositionAndInsert(element, tree[currentIndex].leftPointer ?: tree.size)
+                val inserted = findPositionAndInsert(element, tree[currentIndex].leftPointer ?: tree.size)
+                if (inserted) {
+                    tree[currentIndex].subTreeSize++
+                }
+                inserted
             }
         }
     }
@@ -60,9 +69,26 @@ class BinarySearchTree {
         }
     }
 
+    private fun calculateRank(element: Int, index: Int): Int {
+        var rank = 0
+        val leftPtr = tree[index].leftPointer
+        val rightPtr = tree[index].rightPointer
+        if (tree[index].data <= element) {
+            rank++
+            rank = if (leftPtr != null) rank + tree[leftPtr].subTreeSize else rank
+            if (rightPtr != null) {
+                rank += calculateRank(element, rightPtr)
+            }
+        } else if (leftPtr != null) {
+            rank += calculateRank(element, leftPtr)
+        }
+        return rank
+    }
+
     inner class BinarySearchTreeNode(val data: Int) {
         var parentPointer: Int? = null
         var rightPointer: Int? = null
         var leftPointer: Int? = null
+        var subTreeSize: Int = 1
     }
 }
