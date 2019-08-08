@@ -2,6 +2,7 @@ package org.theloneking.algorithms
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class BinarySearchTreeTest: BaseTest() {
@@ -30,6 +31,8 @@ class BinarySearchTreeTest: BaseTest() {
         assertTrue { binarySearchTree.containsNode(19) }
 
         assertTrue { binarySearchTree.containsNode(10) }
+
+        assertFalse { binarySearchTree.containsNode(0) }
     }
 
     @Test
@@ -47,5 +50,20 @@ class BinarySearchTreeTest: BaseTest() {
         assertEquals(1, binarySearchTree.rank(1))
 
         assertEquals(0, binarySearchTree.rank(0))
+    }
+
+    @Test
+    fun testRemoveNode() {
+        val testArray: Array<Int> = arrayOf(32, 43, 11, 9, 4, 55, 99, 1, 19, 10, 35, 34, 37)
+        val binarySearchTree = BinarySearchTree()
+        testArray.forEach { binarySearchTree.insert(it) }
+
+        binarySearchTree.remove(10)
+        binarySearchTree.remove(4)
+        binarySearchTree.remove(43)
+
+        assertFalse(binarySearchTree.containsNode(10))
+        assertFalse(binarySearchTree.containsNode(4))
+        assertFalse(binarySearchTree.containsNode(43))
     }
 }

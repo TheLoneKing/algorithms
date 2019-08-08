@@ -19,9 +19,8 @@ class BinarySearchTree {
         return calculateRank(element, rootNode)
     }
 
-    // TODO
-    fun remove(element: Int): Boolean {
-        return false
+    fun remove(element: Int) {
+        rootNode = removeRecursive(element, rootNode)
     }
 
     private fun insertRecursive(element: Int, currentNode: BinarySearchTreeNode?): BinarySearchTreeNode {
@@ -68,7 +67,39 @@ class BinarySearchTree {
         return rank
     }
 
-    inner class BinarySearchTreeNode(val value: Int) {
+    private fun removeRecursive(element: Int, currentNode: BinarySearchTreeNode?): BinarySearchTreeNode? {
+        if (currentNode == null) {
+            return null
+        }
+
+        if (element == currentNode.value) {
+            if (currentNode.leftNode == null && currentNode.rightNode == null) { // leaf node - no child
+                return null
+            } else if (currentNode.leftNode != null && currentNode.rightNode != null) { // a node with two children
+                val smallestValue = findSmallestValue(currentNode.rightNode!!)
+                currentNode.value = smallestValue
+                currentNode.rightNode = removeRecursive(element, currentNode.rightNode)
+                return currentNode
+            } else { // node with one child
+                return currentNode.leftNode ?: currentNode.rightNode
+            }
+        } else if (element < currentNode.value) {
+            currentNode.leftNode = removeRecursive(element, currentNode.leftNode)
+            return currentNode
+        } else { // element > currentNode.value
+            currentNode.rightNode = removeRecursive(element, currentNode.rightNode)
+            return currentNode
+        }
+    }
+
+    private fun findSmallestValue(currentNode: BinarySearchTreeNode): Int {
+        return when {
+            currentNode.leftNode == null -> currentNode.value
+            else -> findSmallestValue(currentNode.leftNode!!)
+        }
+    }
+
+    inner class BinarySearchTreeNode(var value: Int) {
         var rightNode: BinarySearchTreeNode? = null
         var leftNode: BinarySearchTreeNode? = null
         var subTreeSize: Int = 1
