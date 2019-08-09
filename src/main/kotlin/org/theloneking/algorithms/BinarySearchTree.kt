@@ -23,6 +23,43 @@ class BinarySearchTree {
         rootNode = removeRecursive(element, rootNode)
     }
 
+    /**
+     * In-order traversal is a depth-first search.
+     * This method returns an empty string if tree does not have any nodes.
+     */
+    fun traverseInOrder(): String {
+        return recursiveInOrderTraversal(rootNode).removeSuffix(", ")
+    }
+
+    /**
+     * Pre-order traversal is a depth-first search.
+     * This method returns an empty string if tree does not have any nodes.
+     */
+    fun traversePreOrder(): String {
+        return recursivePreOrderTraversal(rootNode).removeSuffix(", ")
+    }
+
+    /**
+     * Post-order traversal is a depth-first search.
+     * This method returns an empty string if tree does not have any nodes.
+     */
+    fun traversePostOrder(): String {
+        return recursivePostOrderTraversal(rootNode).removeSuffix(", ")
+    }
+
+    /**
+     * Level-order traversal is a breadth-first search.
+     * This method returns an empty string if tree does not have any nodes.
+     */
+    fun traverseLevelOrder(): String {
+        return if (rootNode != null) {
+            val nodes = mutableListOf(rootNode!!)
+            recursiveLevelOrderTraversal(nodes).removeSuffix(", ")
+        } else {
+            ""
+        }
+    }
+
     private fun insertRecursive(element: Int, currentNode: BinarySearchTreeNode?): BinarySearchTreeNode {
         if (currentNode == null) {
             return BinarySearchTreeNode(element)
@@ -97,6 +134,63 @@ class BinarySearchTree {
             currentNode.leftNode == null -> currentNode.value
             else -> findSmallestValue(currentNode.leftNode!!)
         }
+    }
+
+    private fun recursiveInOrderTraversal(currentNode: BinarySearchTreeNode?): String {
+        var treeString = ""
+
+        if (currentNode != null) {
+            treeString = recursiveInOrderTraversal(currentNode.leftNode)
+            treeString += "${currentNode.value}, "
+            treeString += recursiveInOrderTraversal(currentNode.rightNode)
+        }
+
+        return treeString
+    }
+
+    private fun recursivePreOrderTraversal(currentNode: BinarySearchTreeNode?): String {
+        var treeString = ""
+
+        if (currentNode != null) {
+            treeString = "${currentNode.value}, "
+            treeString += recursivePreOrderTraversal(currentNode.leftNode)
+            treeString += recursivePreOrderTraversal(currentNode.rightNode)
+        }
+
+        return treeString
+    }
+
+    private fun recursivePostOrderTraversal(currentNode: BinarySearchTreeNode?): String {
+        var treeString = ""
+
+        if (currentNode != null) {
+            treeString = recursivePostOrderTraversal(currentNode.leftNode)
+            treeString += recursivePostOrderTraversal(currentNode.rightNode)
+            treeString += "${currentNode.value}, "
+        }
+
+        return treeString
+    }
+
+    private fun recursiveLevelOrderTraversal(nodes: MutableList<BinarySearchTreeNode>): String {
+        var treeString = ""
+
+        if (nodes.isNotEmpty()) {
+            val node = nodes.removeAt(0)
+            treeString = "${node.value}, "
+
+            if (node.leftNode != null) {
+                nodes.add(node.leftNode!!)
+            }
+
+            if (node.rightNode != null) {
+                nodes.add(node.rightNode!!)
+            }
+
+            treeString += recursiveLevelOrderTraversal(nodes)
+        }
+
+        return treeString
     }
 
     inner class BinarySearchTreeNode(var value: Int) {

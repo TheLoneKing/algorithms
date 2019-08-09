@@ -66,4 +66,64 @@ class BinarySearchTreeTest: BaseTest() {
         assertFalse(binarySearchTree.containsNode(4))
         assertFalse(binarySearchTree.containsNode(43))
     }
+
+    @Test
+    fun testInOrderTraversal() {
+        val testArray: Array<Int> = arrayOf(32, 43, 11, 9, 4, 55, 99, 1, 19, 10)
+        val binarySearchTree = BinarySearchTree()
+        testArray.forEach { binarySearchTree.insert(it) }
+
+        val expectedString = "1, 4, 9, 10, 11, 19, 32, 43, 55, 99"
+
+        assertEquals(expectedString, binarySearchTree.traverseInOrder())
+
+        val emptyTree = BinarySearchTree()
+
+        assertEquals("", emptyTree.traverseInOrder())
+    }
+
+    @Test
+    fun testPreOrderTraversal() {
+        val testArray: Array<Int> = arrayOf(32, 43, 11, 9, 4, 55, 99, 1, 19, 10)
+        val binarySearchTree = BinarySearchTree()
+        testArray.forEach { binarySearchTree.insert(it) }
+
+        val expectedString = "32, 11, 9, 4, 1, 10, 19, 43, 55, 99"
+
+        assertEquals(expectedString, binarySearchTree.traversePreOrder())
+
+        val emptyTree = BinarySearchTree()
+
+        assertEquals("", emptyTree.traversePreOrder())
+    }
+
+    @Test
+    fun testPostOrderTraversal() {
+        val testArray: Array<Int> = arrayOf(32, 43, 11, 9, 4, 55, 99, 1, 19, 10)
+        val binarySearchTree = BinarySearchTree()
+        testArray.forEach { binarySearchTree.insert(it) }
+
+        val expectedString = "1, 4, 10, 9, 19, 11, 99, 55, 43, 32"
+
+        assertEquals(expectedString, binarySearchTree.traversePostOrder())
+
+        val emptyTree = BinarySearchTree()
+
+        assertEquals("", emptyTree.traversePostOrder())
+    }
+
+    @Test
+    fun testLevelOrderTraversal() {
+        val testArray: Array<Int> = arrayOf(32, 43, 11, 9, 4, 55, 99, 1, 19, 10)
+        val binarySearchTree = BinarySearchTree()
+        testArray.forEach { binarySearchTree.insert(it) }
+
+        val expectedString = "32, 11, 43, 9, 19, 55, 4, 10, 99, 1"
+
+        assertEquals(expectedString, binarySearchTree.traverseLevelOrder())
+
+        val emptyTree = BinarySearchTree()
+
+        assertEquals("", emptyTree.traverseLevelOrder())
+    }
 }
