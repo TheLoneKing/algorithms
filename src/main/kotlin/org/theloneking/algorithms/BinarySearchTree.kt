@@ -12,8 +12,10 @@ class BinarySearchTree {
     }
 
     /**
-     * Rank is the number of nodes in the tree whose values are either less than or equal to a given value.
-     * This method will return the rank for a given value.
+     * Rank is the number of nodes in the tree whose values
+     * are either less than or equal to a given key.
+     *
+     * This method will return the rank for a given key.
      */
     fun rank(element: Int): Int {
         return calculateRank(element, rootNode)
@@ -25,6 +27,8 @@ class BinarySearchTree {
 
     /**
      * In-order traversal is a depth-first search.
+     * This traversal method traverses the BST in a sorted manner.
+     *
      * This method returns an empty string if tree does not have any nodes.
      */
     fun traverseInOrder(): String {
@@ -66,9 +70,9 @@ class BinarySearchTree {
         }
 
         when {
-            element < currentNode.value -> currentNode.leftNode = insertRecursive(element, currentNode.leftNode)
-            element > currentNode.value -> currentNode.rightNode = insertRecursive(element, currentNode.rightNode)
-            else -> return currentNode // element == currentNode.value (element is already present in the tree)
+            element < currentNode.key -> currentNode.leftNode = insertRecursive(element, currentNode.leftNode)
+            element > currentNode.key -> currentNode.rightNode = insertRecursive(element, currentNode.rightNode)
+            else -> return currentNode // element == currentNode.key (element is already present in the tree)
         }
 
         // Recalculate subtree sizes
@@ -79,9 +83,9 @@ class BinarySearchTree {
     private fun containsNodeRecursive(element: Int, currentNode: BinarySearchTreeNode?): Boolean {
         return if (currentNode != null) {
             when {
-                element < currentNode.value -> containsNodeRecursive(element, currentNode.leftNode)
-                element > currentNode.value -> containsNodeRecursive(element, currentNode.rightNode)
-                else -> true // element == currentNode.value
+                element < currentNode.key -> containsNodeRecursive(element, currentNode.leftNode)
+                element > currentNode.key -> containsNodeRecursive(element, currentNode.rightNode)
+                else -> true // element == currentNode.key
             }
         } else {
             false
@@ -92,7 +96,7 @@ class BinarySearchTree {
         var rank = 0
 
         if (currentNode != null) {
-            if (currentNode.value <= element) {
+            if (currentNode.key <= element) {
                 rank++ // for the current node
                 rank += currentNode.leftNode?.subTreeSize ?: 0 // all nodes in left subtree are < element
                 rank += calculateRank(element, currentNode.rightNode) // traverse right subtree & see if any node < element
@@ -109,21 +113,21 @@ class BinarySearchTree {
             return null
         }
 
-        if (element == currentNode.value) {
+        if (element == currentNode.key) {
             if (currentNode.leftNode == null && currentNode.rightNode == null) { // leaf node - no child
                 return null
             } else if (currentNode.leftNode != null && currentNode.rightNode != null) { // a node with two children
                 val smallestValue = findSmallestValue(currentNode.rightNode!!)
-                currentNode.value = smallestValue
-                currentNode.rightNode = removeRecursive(element, currentNode.rightNode)
+                currentNode.key = smallestValue
+                currentNode.rightNode = removeRecursive(smallestValue, currentNode.rightNode)
                 return currentNode
             } else { // node with one child
                 return currentNode.leftNode ?: currentNode.rightNode
             }
-        } else if (element < currentNode.value) {
+        } else if (element < currentNode.key) {
             currentNode.leftNode = removeRecursive(element, currentNode.leftNode)
             return currentNode
-        } else { // element > currentNode.value
+        } else { // element > currentNode.key
             currentNode.rightNode = removeRecursive(element, currentNode.rightNode)
             return currentNode
         }
@@ -131,7 +135,7 @@ class BinarySearchTree {
 
     private fun findSmallestValue(currentNode: BinarySearchTreeNode): Int {
         return when {
-            currentNode.leftNode == null -> currentNode.value
+            currentNode.leftNode == null -> currentNode.key
             else -> findSmallestValue(currentNode.leftNode!!)
         }
     }
@@ -141,7 +145,7 @@ class BinarySearchTree {
 
         if (currentNode != null) {
             treeString = recursiveInOrderTraversal(currentNode.leftNode)
-            treeString += "${currentNode.value}, "
+            treeString += "${currentNode.key}, "
             treeString += recursiveInOrderTraversal(currentNode.rightNode)
         }
 
@@ -152,7 +156,7 @@ class BinarySearchTree {
         var treeString = ""
 
         if (currentNode != null) {
-            treeString = "${currentNode.value}, "
+            treeString = "${currentNode.key}, "
             treeString += recursivePreOrderTraversal(currentNode.leftNode)
             treeString += recursivePreOrderTraversal(currentNode.rightNode)
         }
@@ -166,7 +170,7 @@ class BinarySearchTree {
         if (currentNode != null) {
             treeString = recursivePostOrderTraversal(currentNode.leftNode)
             treeString += recursivePostOrderTraversal(currentNode.rightNode)
-            treeString += "${currentNode.value}, "
+            treeString += "${currentNode.key}, "
         }
 
         return treeString
@@ -177,7 +181,7 @@ class BinarySearchTree {
 
         if (nodes.isNotEmpty()) {
             val node = nodes.removeAt(0)
-            treeString = "${node.value}, "
+            treeString = "${node.key}, "
 
             if (node.leftNode != null) {
                 nodes.add(node.leftNode!!)
@@ -193,7 +197,7 @@ class BinarySearchTree {
         return treeString
     }
 
-    inner class BinarySearchTreeNode(var value: Int) {
+    inner class BinarySearchTreeNode(var key: Int) {
         var rightNode: BinarySearchTreeNode? = null
         var leftNode: BinarySearchTreeNode? = null
         var subTreeSize: Int = 1

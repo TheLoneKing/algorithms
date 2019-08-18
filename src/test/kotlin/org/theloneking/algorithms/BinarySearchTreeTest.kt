@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class BinarySearchTreeTest: BaseTest() {
+class BinarySearchTreeTest {
     @Test
     fun testInsertAndContainsNode() {
         val testArray: Array<Int> = arrayOf(32, 43, 11, 9, 4, 55, 99, 1, 19, 10)
